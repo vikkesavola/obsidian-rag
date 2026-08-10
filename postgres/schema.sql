@@ -11,7 +11,7 @@ CREATE TABLE document_chunks (
   id bigserial PRIMARY KEY,                             -- chunk's own id
   document_id bigint not null references documents(id), -- which doc it belongs to
   chunk jsonb,
-  embedding vector(1536),
+  embedding vector(384),
   created_at timestamp default now()
 );
 

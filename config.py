@@ -6,5 +6,5 @@ load_dotenv()
 
 VAULT_PATH   = Path(os.environ["VAULT_PATH"])
 DATABASE_URL = os.environ["DATABASE_URL"]
-EMBED_MODEL  = "text-embedding-3-small"
-EMBED_DIM    = 1536
+EMBED_MODEL  = "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"
+EMBED_DIM    = 384

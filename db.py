@@ -1,23 +1,8 @@
-from openai import OpenAI
-from ingest import load_chunks
 from config import EMBED_MODEL, DATABASE_URL
 import psycopg
 from psycopg.types.json import Json
 from pgvector.psycopg import register_vector
-
-client = OpenAI()
-
-def get_embeddings():
-  chunks = load_chunks()
-  texts = [c["text"] for c in chunks]
-
-  response = client.embeddings.create(input=texts, model=EMBED_MODEL)
-
-  for chunk, item in zip(chunks, response.data):
-    chunk["embedding"] = item.embedding
-
-  print(len(chunks), "chunks,", len(chunks[0]["embedding"]), "dims")
-
+from embed import get_embeddings
 
 
 def store(chunks):
@@ -34,7 +19,13 @@ def store(chunks):
           )
           doc_ids[path] = cur.fetchone()[0]
         cur.execute(
-          "INSERT INTO document_chunks (document_id, chunk, embedding) VALUES (%s %s %s)",
+          "INSERT INTO document_chunks (document_id, chunk, embedding) VALUES (%s, %s, %s)",
           (doc_ids[path], Json({"text": c["text"]}), c["embedding"]),
         )
     conn.commit()
+
+
+if __name__ == "__main__":
+    chunks = get_embeddings()
+    store(chunks)
+    print(f"indexed {len(chunks)} chunks")
