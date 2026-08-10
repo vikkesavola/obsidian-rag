@@ -8,7 +8,7 @@ def load_chunks():
     if text.startswith("---"):
       _, frontmatter, body = text.split("---", 2)
     else: frontmatter, body = "", text
-    parts = text.split("\n## ") if len(text) > 1500 else [text]
+    parts = body.split("\n## ") if len(body) > 1500 else [body]
 
     for part in parts:
       chunks.append({
