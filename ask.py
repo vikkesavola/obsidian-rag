@@ -12,11 +12,15 @@ def search(question, k=5):
   with psycopg.connect(DATABASE_URL) as conn:
     register_vector(conn)
     with conn.cursor() as cur:
-      cur.execute("""SELECT d.doc_name, c.chunk->>'text' 
-        FROM document_chunks c
-        JOIN documents d
-        ON c.document_id = d.id
-        ORDER BY c.embedding <=> %s
+      cur.execute("""
+        SELECT doc_name, text 
+        FROM (
+          SELECT DISTINCT ON (d.doc_name)
+            d.doc_name, c.chunk->>'text' AS text, c.embedding <=> %s AS distance
+          FROM document_chunks c JOIN documents d ON c.document_id = d.id
+          ORDER BY d.doc_name, distance
+        ) sub
+        ORDER BY distance
         LIMIT %s
       """, (question_embed, k))
   
