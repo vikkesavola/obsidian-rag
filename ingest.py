@@ -2,6 +2,13 @@ from pathlib import Path
 from config import VAULT_PATH, CHUNK_TARGET_CHARS
 
 
+def pieces(section):
+  for para in section.split("\n\n"):
+    if len(para) <= CHUNK_TARGET_CHARS:
+      yield para
+    else:
+      yield from para.split("\n")
+
 def load_chunks():
   """
   Read every note in the vault and split it into embedding-sized chunks.
@@ -18,7 +25,7 @@ def load_chunks():
 
     for section in sections:
       buffer = ""
-      for para in section.split("\n\n"):
+      for para in pieces(section):
         if buffer and len(buffer) + len(para) > CHUNK_TARGET_CHARS:
           chunks.append({
             "note_path": str(md.relative_to(VAULT_PATH)),
@@ -33,5 +40,4 @@ def load_chunks():
           "text": buffer.strip()
         })
 
-      # no limit on paragraph size
   return chunks

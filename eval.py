@@ -47,7 +47,7 @@ test_set = [
    "notes": ["Atlas\\Notes\\Sorting.md"]},
   {"q": "Which data structure in Scala corresponds to Python's list?",
    "notes": ["Atlas\\Notes\\Resizable array.md"]},
-  {"q": "Millainen subwoofer minun kannattaisi hankkia kotiin?",
+  {"q": "Miten kaiutin saa aikaan ääntä sähkövirrasta?",
    "notes": ["Atlas\\Notes\\Audio.md"]},
   {"q": "Miksi kielletty hedelmä houkuttaa?",
    "notes": ["Atlas\\Notes\\Motivaatio.md"]},

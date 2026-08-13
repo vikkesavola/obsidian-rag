@@ -10,6 +10,7 @@ Next: allow multiple correct notes per question; expand test set to ~20.
 
 ## allow multiple valid notes; expand test set to 25 | 11.8.2026
 recall@3: 0.68 (17/25)
+
 Problems with multiple languages.
 - "värijärjestelmä" (Color.md, color systems) -> värien havaitseminen/värikontrasti/vastaväriteoria
 Problems with granularity/exact terms.
@@ -24,11 +25,13 @@ So split into paragraphs and combine them. If it doesn't work, hybrid search wit
 
 ## Add paragraph split -> 1345 smaller chunks | 12.8.2026
 recall@3: 0.68 (17/25)
+
 Problem: same doc repeats in results due to smaller chunks.  
 Fix: retreive more candidates and keep only the best chunk per note until we have 3 different notes.
 
 ## Return best chunk per note | 12.8.2026
 recall@3: 0.72 (18/25)
+
 Problem 1: Some of the evaluation questions are bad and should be changed.
 - subwoofer isn't really mentioned in Audio.md, it's just connected to the topic of speakers.
 - LGN is mentioned very briefly in a course MOC bullet point.
@@ -39,3 +42,13 @@ Problem 2: Chunk splitting when there are no paragraphs (e.g., bullet lists).
 
 Problem 3: Exact terms get diluted.
 - Fix: using Hybrid search with, e.g., BM25
+
+## Improved evaluation set | 12.8.2026
+recall@3: 0.73 (37/51)
+Fixed issues in the test set, added questions and grouped them by what they test.
+Next: fix problem 1 (split long paragraphs into lines).
+
+## Split paragraphs further -> 1472 chunks | 12.8.2026
+recall@3: 0.78 (40/51)
+Three more questions correct including the hallucination question!
+
