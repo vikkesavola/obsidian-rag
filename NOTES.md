@@ -70,3 +70,7 @@ Results improved, but it seems to always pick long, keyword-heavy notes instead 
 Two possible fixes:
 - assigning keyword search a lighter weight, e.g., 30%, and semantic search 70%
 - stripping common words so BM25 can't match them
+
+## Weighted RRF
+recall@3: 0.82 (42/51)
+After trying many different weight combinations, I found out that a very light weight of ~0.05 on keyword search provided the best results.

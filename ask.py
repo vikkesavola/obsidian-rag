@@ -55,15 +55,15 @@ def search_semantic(question, k=5):
 
 def rrf(rankings, k=60):
   scores = {}
-  for ranking in rankings:
+  for ranking, weight in rankings:
     for rank, name in enumerate(ranking):
-      scores[name] = scores.get(name, 0) + 1 / (k + rank)
+      scores[name] = scores.get(name, 0) + weight * ( 1 / (k + rank))
   return sorted(scores, key=scores.get, reverse=True)
 
 def search_hybrid(question, top_k=3, pool=20):
   vec = [name for name, _ in search_semantic(question, k=pool)]
   kw = search_bm25(question, k=pool)
-  return rrf([vec, kw])[:top_k]
+  return rrf([(vec, 1), (kw, 0.00)])[:top_k]
 
 if __name__ == "__main__":
   question = " ".join(sys.argv[1:])
