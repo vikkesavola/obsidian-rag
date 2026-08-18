@@ -2,11 +2,13 @@ from ollama import chat
 from ollama import ChatResponse
 
 def getResponse(context, question):
-  prompt = f"""Answer the question using only the notes below. Cite the note(s) you used.
-
+  prompt = f"""Notes:
   {context}
 
-  Question: {question}"""
+  Question: {question}
+
+  Answer in English, using only the notes above. If the notes do not contain the answer, say so instead of guessing. Cite the note(s) you used.
+  """
   response: ChatResponse = chat(model='llama3.2:1b', messages=[
     {
       'role': 'user',

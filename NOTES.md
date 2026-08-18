@@ -79,3 +79,5 @@ After trying many different weight combinations, I found out that a very light w
 recall@3: 0.82 (42/51)
 Didn't change the results on the current weights, but it did show minor improvements with other weights, so I'm leaving it in.
 
+## Better prompting
+Model answered in Finnish, and hallucinated when it couldn't find relevant lecture notes. Now the model is instructed to answer in English and to admit when there are no relevant notes.
