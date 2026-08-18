@@ -4,8 +4,12 @@ from pgvector.psycopg import register_vector
 from config import EMBED_MODEL, DATABASE_URL
 from sentence_transformers import SentenceTransformer
 from rank_bm25 import BM25Okapi
+import re
 
 model = SentenceTransformer(EMBED_MODEL)
+
+def _tokenize(text):
+  return re.findall(r"\w+", text.lower())
 
 def _load_corpus():
   with psycopg.connect(DATABASE_URL) as conn, conn.cursor() as cur:
@@ -13,13 +17,13 @@ def _load_corpus():
                 "FROM document_chunks c JOIN documents d ON c.document_id = d.id")
     rows = cur.fetchall()
   docs = [name for name, _ in rows]
-  corpus = [text.lower().split() for _, text in rows]
+  corpus = [_tokenize(text) for _, text in rows]
   return docs, BM25Okapi(corpus)
 
 DOCS, BM25 = _load_corpus()
 
 def search_bm25(question, k=20):
-  scores = BM25.get_scores(question.lower().split())
+  scores = BM25.get_scores(_tokenize(question))
   ranked = sorted(range(len(scores)), key=lambda i: scores[i], reverse=True)
   seen = []
   for i in ranked:

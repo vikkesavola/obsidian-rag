@@ -8,7 +8,7 @@ Misses:
   
 Next: allow multiple correct notes per question; expand test set to ~20.
 
-## allow multiple valid notes; expand test set to 25 | 11.8.2026
+## allow multiple valid notes; expand test set to 25
 recall@3: 0.68 (17/25)
 
 Problems with multiple languages.
@@ -29,7 +29,7 @@ recall@3: 0.68 (17/25)
 Problem: same doc repeats in results due to smaller chunks.  
 Fix: retreive more candidates and keep only the best chunk per note until we have 3 different notes.
 
-## Return best chunk per note | 12.8.2026
+## Return best chunk per note
 recall@3: 0.72 (18/25)
 
 Problem 1: Some of the evaluation questions are bad and should be changed.
@@ -43,12 +43,12 @@ Problem 2: Chunk splitting when there are no paragraphs (e.g., bullet lists).
 Problem 3: Exact terms get diluted.
 - Fix: using Hybrid search with, e.g., BM25
 
-## Improved evaluation set | 12.8.2026
+## Improved evaluation set
 recall@3: 0.73 (37/51)
 Fixed issues in the test set, added questions and grouped them by what they test.
 Next: fix problem 2 (split long paragraphs into lines).
 
-## Split paragraphs further -> 1472 chunks | 12.8.2026
+## Split paragraphs further -> 1472 chunks
 recall@3: 0.78 (40/51)
 Three more questions correct including the hallucination question!
 
@@ -60,6 +60,13 @@ Analysis:
 
 Next step: add hybrid search with BM25
 
-## Hybrid search pt. 1 | 18.8.2026
+## Hybrid search | 18.8.2026
 recall@3: 0.55 (28/51)
 Results got worse, but it's fixable. Currently, tokenizer splits on spaces, so it keeps question marks etc. -> fix is to make a better tokenizer.
+
+## Improved tokenizer
+recall@3: 0.73 (37/51)
+Results improved, but it seems to always pick long, keyword-heavy notes instead of semantically correct ones.
+Two possible fixes:
+- assigning keyword search a lighter weight, e.g., 30%, and semantic search 70%
+- stripping common words so BM25 can't match them
