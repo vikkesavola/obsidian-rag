@@ -1,4 +1,3 @@
-import sys
 import psycopg
 from pgvector.psycopg import register_vector
 from config import EMBED_MODEL, DATABASE_URL
@@ -68,6 +67,6 @@ def search_hybrid(question, top_k=3, pool=20):
   return rrf([(vec, 0.95), (kw, 0.05)])[:top_k]
 
 if __name__ == "__main__":
-  question = " ".join(sys.argv[1:])
-  for name in search_hybrid(question):
+  import sys
+  for name in search_hybrid(" ".join(sys.argv[1:])):
     print(name)
