@@ -8,8 +8,10 @@ import re
 
 model = SentenceTransformer(EMBED_MODEL)
 
+STOPWORDS = {"mikä","mitä","miten","miksi","on","ja","the","is","a","what","how","of","in","to","do","you"}
+
 def _tokenize(text):
-  return re.findall(r"\w+", text.lower())
+  return [t for t in re.findall(r"\w+", text.lower()) if t not in STOPWORDS]
 
 def _load_corpus():
   with psycopg.connect(DATABASE_URL) as conn, conn.cursor() as cur:
@@ -63,7 +65,7 @@ def rrf(rankings, k=60):
 def search_hybrid(question, top_k=3, pool=20):
   vec = [name for name, _ in search_semantic(question, k=pool)]
   kw = search_bm25(question, k=pool)
-  return rrf([(vec, 1), (kw, 0.00)])[:top_k]
+  return rrf([(vec, 0.95), (kw, 0.05)])[:top_k]
 
 if __name__ == "__main__":
   question = " ".join(sys.argv[1:])

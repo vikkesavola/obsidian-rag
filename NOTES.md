@@ -74,3 +74,8 @@ Two possible fixes:
 ## Weighted RRF
 recall@3: 0.82 (42/51)
 After trying many different weight combinations, I found out that a very light weight of ~0.05 on keyword search provided the best results.
+
+## Strip stopwords
+recall@3: 0.82 (42/51)
+Didn't change the results on the current weights, but it did show minor improvements with other weights, so I'm leaving it in.
+
