@@ -1,4 +1,4 @@
-from ask import search
+from ask import search_hybrid
 
 # 50 questions, grouped by which aspect they test
 # Every label was verified against the actual note content
@@ -126,8 +126,7 @@ test_set = [
 
 hits = 0
 for case in test_set:
-  results = search(case["q"], k=3)
-  doc_names = [doc_name for doc_name, text in results]
+  doc_names = search_hybrid(case["q"], top_k=3)
   if any(n in doc_names for n in case["notes"]):
     hits += 1
   else:

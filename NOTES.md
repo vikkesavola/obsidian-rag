@@ -46,9 +46,20 @@ Problem 3: Exact terms get diluted.
 ## Improved evaluation set | 12.8.2026
 recall@3: 0.73 (37/51)
 Fixed issues in the test set, added questions and grouped them by what they test.
-Next: fix problem 1 (split long paragraphs into lines).
+Next: fix problem 2 (split long paragraphs into lines).
 
 ## Split paragraphs further -> 1472 chunks | 12.8.2026
 recall@3: 0.78 (40/51)
 Three more questions correct including the hallucination question!
 
+Analysis:
+- doesn't find exact terms -> hybrid search. For example, doesn't find "3 desibeliä" or "amortized constant time".
+- fails cross-language exact terms -> needs a better embedding model. Doesn't connect cone of confusion->suuntakuulo or passband/stopband->suodatus.
+- paraphrasing issues -> needs a better model. Doesn't connect "fundamental frequency of a plucked string" to string instruments, only hearing/sound/wind instruments
+- metaphors -> difficult to fix. Difficult for any model to connect "forbidden fruit" -> motivation/reactance
+
+Next step: add hybrid search with BM25
+
+## Hybrid search pt. 1 | 18.8.2026
+recall@3: 0.55 (28/51)
+Results got worse, but it's fixable. Currently, tokenizer splits on spaces, so it keeps question marks etc. -> fix is to make a better tokenizer.
